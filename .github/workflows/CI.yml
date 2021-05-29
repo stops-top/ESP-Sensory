@@ -75,24 +75,23 @@ jobs:
         #- mks_robin_mini
 
     steps:
+      - name: Select Python 3.7
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
+          architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
-    - name: Select Python 3.7
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.7' # Version range or exact version of a Python version to use, using semvers version range syntax.
-        architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-
-    - name: Install PlatformIO
-      run: |
-        pip install -U https://github.com/platformio/platformio-core/archive/develop.zip
-        platformio update
+      - name: Install PlatformIO
+        run: |
+          pip install -U https://github.com/platformio/platformio-core/archive/develop.zip
+          platformio update
 
       - uses: actions/checkout@v2
         with:
           submodules: "recursive"
           fetch-depth: 1
 
-    - name: Run ${{ matrix.test-platform }}
-      working-directory: Marlin
-      run: |
-        make tests-single-ci TEST_TARGET=${{ matrix.test-platform }}
+      - name: Run ${{ matrix.test-platform }}
+        working-directory: Marlin
+        run: |
+          make tests-single-ci TEST_TARGET=${{ matrix.test-platform }}
