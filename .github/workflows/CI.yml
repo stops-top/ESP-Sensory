@@ -91,7 +91,7 @@ jobs:
           submodules: "recursive"
           fetch-depth: 1
 
-      - name: Run ${{ matrix.test-platform }}
+      - name: ${{ matrix.test-platform }}
         working-directory: Marlin
         run: |
           make tests-single-ci TEST_TARGET=${{ matrix.test-platform }}
