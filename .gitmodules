@@ -4,3 +4,9 @@
 [submodule "grbl/ESP32"]
 	path = grbl/ESP32
 	url = https://github.com/bdring/Grbl_Esp32.git
+[submodule "grbl/RP2040"]
+	path = grbl/RP2040
+	url = https://github.com/grblHAL/RP2040.git
+[submodule "grbl/core"]
+	path = grbl/core
+	url = https://github.com/grblHAL/core.git
