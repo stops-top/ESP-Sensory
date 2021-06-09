@@ -4,8 +4,7 @@
 
 ### [简介](https://github.com/stopstopstop/card/wiki)
 
-### Marlin Chips
-
+### Marlin 
 
   Platform| MCU | Boards
   --------|---|-------

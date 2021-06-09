@@ -96,3 +96,31 @@ jobs:
         run: |
           make tests-single-ci TEST_TARGET=${{ matrix.test-platform }}
 
+  grbl:
+    strategy:
+      fail-fast: false
+      matrix:
+        example:
+          - "ESP32"
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: "recursive"
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+
+      - name: Install pio
+        run: |
+          pip install -U https://github.com/platformio/platformio/archive/develop.zip
+
+      - name: build grbl
+        working-directory: grbl
+        run: |
+          pio run -d ${{ matrix.example }}
