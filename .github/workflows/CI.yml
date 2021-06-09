@@ -9,8 +9,8 @@ jobs:
   Marlin:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         test-platform:
         # Base Environments
         - DUE
