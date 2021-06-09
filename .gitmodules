@@ -1,3 +1,6 @@
 [submodule "Marlin"]
 	path = Marlin
 	url = https://github.com/MarlinFirmware/Marlin.git
+[submodule "grbl/ESP32"]
+	path = grbl/ESP32
+	url = https://github.com/bdring/Grbl_Esp32.git
