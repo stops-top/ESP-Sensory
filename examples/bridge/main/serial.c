@@ -34,7 +34,6 @@
 #include "io.h"
 #include "jtag.h"
 
-// #define SLAVE_UART_1                UART_NUM_1
 #define SLAVE_UART_BUF_SIZE         (2 * 1024)
 #define SLAVE_UART_DEFAULT_BAUD     115200      //460800
 

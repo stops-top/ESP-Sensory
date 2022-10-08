@@ -9,7 +9,6 @@ __pycache__
 LICENSE*
 *.png
 *.jpg
-examples/**/*.yml
 examples/**/*.md
 **/CONTR*
 **/CHANGE*
@@ -38,8 +37,6 @@ FEATURES
 *.pch
 
 # Libraries
-*.lib
-*.a
 *.la
 *.lo
 
@@ -70,7 +67,8 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
-
+build/
+sdkconfig
 # 忽略文件
 
 *.[OoDd]

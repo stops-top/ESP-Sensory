@@ -89,6 +89,7 @@ void app_main(void)
     gui_main_start();
     // app_rmaker_start();
     while(1){
+        vTaskDelay(pdMS_TO_TICKS(10));
         // EventBits_t uxBits = xEventGroupWaitBits(
         //     fp_task_events,
         //     FP_CHECKED | FP_TOUCHON | FP_AGAIN,
