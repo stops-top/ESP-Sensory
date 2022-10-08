@@ -4,10 +4,6 @@ on:
   push:
     branches:
       - master
-    # paths:
-    #   - '**.yml'
-    #   - '**.json'
-    #   - '**.py'
 
 jobs:
   release:
@@ -18,7 +14,8 @@ jobs:
           - "esp32s3"
         examples:
           - "touch"
-        esp-idf: ["v4.4"] 
+          - "bridge"
+        esp-idf: ["v4.4.2"] 
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -38,7 +35,7 @@ jobs:
 
         - name: Build 
           run: |
-            git clone -b release/${{ matrix.esp-idf }} --recursive https://github.com/espressif/esp-idf.git
+            git clone -b ${{ matrix.esp-idf }} --recursive https://github.com/espressif/esp-idf.git
             cd esp-idf
             ./install.sh ${{ matrix.targets }}
             . ./export.sh

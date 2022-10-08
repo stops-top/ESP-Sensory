@@ -62,7 +62,8 @@ typedef struct fp_user_info
     unsigned int    id;             
     unsigned char   stat; 	      
     unsigned char   level; 	        
-	unsigned int    template;     
+	unsigned int    template;  
+    unsigned int      result;    
 } esp_user_info; 				    //用户信息
 
 typedef enum btl_bep_rc_e{
