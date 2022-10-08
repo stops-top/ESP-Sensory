@@ -74,7 +74,16 @@ typedef bool (*tips_end_func)(uint32_t userdata);
 //     esp_fp_rc     result; 
 // } fp_user_info;
 
-#if 0
+#if 1
+
+typedef struct fp_user_info
+{
+    unsigned int    id;             //用户身份ID
+    unsigned char   stat; 	        //用户状态
+    unsigned char   level; 	        //权限等级
+	unsigned int    template;       //模板信息
+    esp_fp_rc_t     result; 
+} esp_user_info; 				    //用户信息
 
 typedef enum btl_bep_rc_e{
         BTL_RC_OK = 0x00,                           /* 成功 */           
@@ -173,8 +182,8 @@ extern tips_show_info_t * tips_info_fetch();
 
 extern void touch_event_init();
 
-extern esp_fp_user_info* touch_event_receive();
+extern esp_user_info* touch_event_receive();
 
-extern void touch_event_send(esp_fp_user_info * event);
+extern void touch_event_send(esp_user_info * event);
 
 #endif /*LV_EXAMPLE_FUNC_H*/

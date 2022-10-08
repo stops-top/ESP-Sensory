@@ -18,7 +18,7 @@ jobs:
           - "esp32s3"
         examples:
           - "touch"
-        esp-idf: ["v4.4","v5.0"] 
+        esp-idf: ["v4.4"] 
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:

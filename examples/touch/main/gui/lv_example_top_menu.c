@@ -152,7 +152,7 @@ static void top_test_event_cb(lv_event_t * e)
     lv_event_code_t code = lv_event_get_code(e);
     lv_obj_t * button = lv_event_get_target(e);
     uint8_t touch_event = lv_event_get_user_data(e);
-    esp_fp_user_info * param = lv_event_get_param(e);
+    esp_user_info * param = lv_event_get_param(e);
 
     if(code == LV_EVENT_SHORT_CLICKED) {
         if(param){/*parse */ 
@@ -359,7 +359,7 @@ static void main_layer_timer_cb(lv_timer_t * tmr)
     int32_t temp, isTmOut = 0;
     static uint32_t period_clock_add;
 
-    esp_fp_user_info * touch_event;
+    esp_user_info * touch_event;
     touch_event = touch_event_receive();
     if(touch_event){
         lv_event_send(top_menu_Event, LV_EVENT_SHORT_CLICKED, touch_event);

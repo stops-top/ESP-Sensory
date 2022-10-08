@@ -82,7 +82,7 @@ static void show_public_layer_timer_cb(lv_timer_t * tmr)
     if(isTmOut > 0){
         period_clock_next = lv_tick_get();
 
-        // esp_fp_user_info touchEvent;
+        // esp_user_info touchEvent;
         // touchEvent.id = 333;
         // touchEvent.result = 1;
         // touch_event_send(&touchEvent);

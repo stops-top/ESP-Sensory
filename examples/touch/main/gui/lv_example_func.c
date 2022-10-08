@@ -136,15 +136,15 @@ static QueueHandle_t audio_event_queue = NULL;
 void touch_event_init()
 {
     /* Audio control event queue */
-    audio_event_queue = xQueueCreate(4, sizeof(esp_fp_user_info));
+    audio_event_queue = xQueueCreate(4, sizeof(esp_user_info));
     if (NULL == audio_event_queue) {
         ESP_LOGI(TAG, "audio_event_queue create failed");
     }
 }
 
-esp_fp_user_info* touch_event_receive()
+esp_user_info* touch_event_receive()
 {
-    static esp_fp_user_info event;
+    static esp_user_info event;
     if (pdPASS == xQueueReceive(audio_event_queue, &event, 0)) {
         ESP_LOGI(TAG, "audio_event_queue receive end");
         return &event;
@@ -154,7 +154,7 @@ esp_fp_user_info* touch_event_receive()
     }
 }
 
-void touch_event_send(esp_fp_user_info * event)
+void touch_event_send(esp_user_info * event)
 {
     if(event){
         BaseType_t ret_val = xQueueSend(audio_event_queue, event, 0);

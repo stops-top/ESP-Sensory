@@ -204,7 +204,7 @@ static void admin_test_event_cb(lv_event_t * e)
     lv_event_code_t code = lv_event_get_code(e);
     lv_obj_t * button = lv_event_get_target(e);
     uint8_t touch_event = lv_event_get_user_data(e);
-    esp_fp_user_info * param = lv_event_get_param(e);
+    esp_user_info * param = lv_event_get_param(e);
 
     if(code == LV_EVENT_SHORT_CLICKED) {
         if(param){/*parse */ 
@@ -739,7 +739,7 @@ static void administrator_layer_timer_cb(lv_timer_t * tmr)
         period_clock_next = lv_tick_get();
     }
     
-    esp_fp_user_info * touch_event;
+    esp_user_info * touch_event;
     touch_event = touch_event_receive();
     if(touch_event){
         lv_event_send(admin_menu_Event, LV_EVENT_SHORT_CLICKED, touch_event);
