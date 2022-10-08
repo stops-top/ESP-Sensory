@@ -55,34 +55,14 @@ extern "C" {
 
 typedef bool (*tips_end_func)(uint32_t userdata);
 
-// typedef enum fp_rc_type {
-//         ESP_FP_RC_OK = 0x00,            /* 匹配成功 */
-//         ESP_FP_VERIFY_FAIL = 0x01,      /* 匹配失败 */          
-//         ESP_FP_FINGER_HOLD = 0x02,      /* 手指没抬起 */
-//         ESP_FP_FINGER_NONE = 0x03,      /* 未检测到手指按压 */
-//         ESP_FP_ENROLL_FAIL = 0x04,      /* 注册指纹失败 */   
-//         ESP_FP_TRY_AGAIN = 0x05,        /* 需要再次采集图像 */       
-//         ESP_FP_DEVICE_ERR = 0x06        /* 硬件初始化失败 */
-// } esp_fp_rc;  //反馈结果状态
-
-// typedef struct fpuser_info
-// {
-//     unsigned int    id;                 //用户身份ID
-//     unsigned char   stat;               //用户状态
-//     unsigned char   level;              //权限等级
-//     unsigned int    template;           //模板编号
-//     esp_fp_rc     result; 
-// } fp_user_info;
-
 #if 1
 
 typedef struct fp_user_info
 {
-    unsigned int    id;             //用户身份ID
-    unsigned char   stat; 	        //用户状态
-    unsigned char   level; 	        //权限等级
-	unsigned int    template;       //模板信息
-    esp_fp_rc_t     result; 
+    unsigned int    id;             
+    unsigned char   stat; 	      
+    unsigned char   level; 	        
+	unsigned int    template;     
 } esp_user_info; 				    //用户信息
 
 typedef enum btl_bep_rc_e{
@@ -126,7 +106,7 @@ typedef enum{
 }SINGAL_TOUCH_EVENT;
 
 typedef enum{
-    TIP_EVENT_VERITY_SUCCESS = ESP_FP_DEVICE_ERR + 1,   //验证成功！
+    TIP_EVENT_VERITY_SUCCESS = 1,   //验证成功！
     TIP_EVENT_VERITY_FAILED,    //验证失败！
     TIP_EVENT_INPUT_SUCCESS,    //录入成功！
     TIP_EVENT_USER_NOT_EXIST,   //查无此用户！

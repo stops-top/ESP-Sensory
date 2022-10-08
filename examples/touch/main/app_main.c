@@ -77,11 +77,11 @@ void gui_main_start(void)
 **输入参数 ：
 **输出参数 ：
 ********************************************************************************/
-EventGroupHandle_t sys_event_group;
+// EventGroupHandle_t sys_event_group;
 void app_main(void)
 {
     LV_LOG_USER("start up");
-    sys_event_group = xEventGroupCreate();
+    // sys_event_group = xEventGroupCreate();
     ESP_ERROR_CHECK(bsp_board_init());
     ESP_ERROR_CHECK(lv_port_init());
     bsp_lcd_set_backlight(true);
