@@ -1,5 +1,5 @@
-#ifndef _PMOD_IO_H_
-#define _PMOD_IO_H_
+#pragma once
+
 /* 
 | MOD1 | 38 | 39 | 40 | 41 | GND | 3V3 |
 | MOD1 | 42 | 21 | 19 | 20 | GND | 3V3 |
@@ -30,4 +30,4 @@
 #define MOD_RX2         CONFIG_BRIDGE_MOD_RX2
 #define MOD_TX2         CONFIG_BRIDGE_MOD_TX2
 
-#endif
+

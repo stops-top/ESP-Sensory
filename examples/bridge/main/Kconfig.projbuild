@@ -1,4 +1,4 @@
-menu "Box Configuration"
+menu "Sensory Configuration"
 
     config BRIDGE_MOD_BOOT1
         int "MOD GPIO pin BOOT1"
@@ -78,11 +78,11 @@ menu "Box Configuration"
 
     config BRIDGE_PRODUCT_NAME
         string "USB product name"
-        default "Box Bridge"
+        default "ESP Sensory"
 
     config BRIDGE_MSC_VOLUME_LABEL
         string "Volume label shown in the MSC disc"
-        default "BOX_MSC"
+        default "Sensory"
         help
             Volume label shown in the MSC disc. Max lenght is 11 ASCII characters.
 

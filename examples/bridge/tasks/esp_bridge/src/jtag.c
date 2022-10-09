@@ -29,7 +29,7 @@
 
 #define ROUND_UP_BITS(x)            ((x + 7) & (~7))
 
-static const char *TAG = "bridge_jtag";
+static const char *TAG = "jtag";
 
 /* esp usb serial protocol specific definitions */
 #define JTAG_PROTO_MAX_BITS      (CFG_TUD_VENDOR_RX_BUFSIZE * 8)

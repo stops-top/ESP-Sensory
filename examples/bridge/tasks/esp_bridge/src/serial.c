@@ -39,7 +39,7 @@
 
 #define USB_SEND_RINGBUFFER_SIZE SLAVE_UART_BUF_SIZE
 
-static const char *TAG = "bridge_serial";
+static const char *TAG = "serial";
 
 static QueueHandle_t uart_queue;
 static RingbufHandle_t usb_sendbuf;
@@ -109,61 +109,6 @@ static void uart1_event_task(void *pvParameters)
     vTaskDelete(NULL);
 }
 
-static void uart2_event_task(void *pvParameters)
-{
-    uart_event_t event;
-    uint8_t dtmp[SLAVE_UART_BUF_SIZE];
-
-    while (1) {
-        if (xQueueReceive(uart_queue, (void *) &event, portMAX_DELAY)) {
-            switch (event.type) {
-            case UART_DATA:
-                if (serial1_read_enabled) {
-                    size_t buffered_len;
-                    uart_get_buffered_data_len(UART_NUM_2, &buffered_len);
-                    const int read = uart_read_bytes(UART_NUM_2, dtmp, MIN(buffered_len, SLAVE_UART_BUF_SIZE), portMAX_DELAY);
-                    ESP_LOGD(TAG, "UART -> CDC ringbuffer (%d bytes)", read);
-                    ESP_LOG_BUFFER_HEXDUMP("UART -> CDC", dtmp, read, ESP_LOG_DEBUG);
-
-                    // We cannot wait it here because UART events would overflow and have to copy the data into
-                    // another buffer and wait until it can be sent.
-                    if (xRingbufferSend(usb_sendbuf, dtmp, read, pdMS_TO_TICKS(10)) != pdTRUE) {
-                        ESP_LOGV(TAG, "Cannot write to ringbuffer (free %d of %d)!",
-                                 xRingbufferGetCurFreeSize(usb_sendbuf),
-                                 USB_SEND_RINGBUFFER_SIZE);
-                        vTaskDelay(pdMS_TO_TICKS(10));
-                    }
-                }
-                break;
-            case UART_FIFO_OVF:
-                ESP_LOGW(TAG, "UART FIFO overflow");
-                uart_flush_input(UART_NUM_2);
-                xQueueReset(uart_queue);
-                break;
-            case UART_BUFFER_FULL:
-                ESP_LOGW(TAG, "UART ring buffer full");
-                uart_flush_input(UART_NUM_2);
-                xQueueReset(uart_queue);
-                break;
-            case UART_BREAK:
-                ESP_LOGW(TAG, "UART RX break");
-                break;
-            case UART_PARITY_ERR:
-                ESP_LOGW(TAG, "UART parity error");
-                break;
-            case UART_FRAME_ERR:
-                ESP_LOGW(TAG, "UART frame error");
-                break;
-            default:
-                ESP_LOGW(TAG, "UART event type: %d", event.type);
-                break;
-            }
-            taskYIELD();
-        }
-        vTaskDelay(pdMS_TO_TICKS(10));
-    }
-    vTaskDelete(NULL);
-}
 
 static esp_err_t usb_wait_for_tx(const uint32_t block_time_ms)
 {
