@@ -7,6 +7,7 @@ idf_component_register(SRC_DIRS "${src_dirs}"
                         INCLUDE_DIRS "${include_dirs}"
                         PRIV_INCLUDE_DIRS "${priv_include_dirs}" 
                         PRIV_REQUIRES nvs_flash spiffs esp_timer tinyusb esp-serial-flasher
+                        LDFRAGMENTS "noflash.lf"
 )
  
 if(${IDF_VERSION_MAJOR} EQUAL 4 AND ${IDF_VERSION_MINOR} EQUAL 3)

@@ -1,5 +1,6 @@
 menu "Box Configuration"
-
+    orsource "../../../components/esp_bridge/Kconfig.bridge"
+    
     menu "Wi-Fi Settings"
 
             config BOARD_WIFI_SSID

@@ -13,7 +13,7 @@
 #include "esp_log.h"
 #include "app_wifi.h"
 #include "app_sntp.h"
-
+#include "esp_bridge_task.h"
 
 static const char *TAG = "app_main";
 
@@ -88,6 +88,7 @@ void app_main(void)
     touch_event_init();
     gui_main_start();
     // app_rmaker_start();
+    esp_bridge_init();
     while(1){
         vTaskDelay(pdMS_TO_TICKS(10));
         // EventBits_t uxBits = xEventGroupWaitBits(

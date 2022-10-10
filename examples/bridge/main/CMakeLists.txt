@@ -1,6 +1,6 @@
 idf_component_register(SRC_DIRS "." 
                          INCLUDE_DIRS "." 
-                         LDFRAGMENTS "noflash.lf"
+                         
                          # EMBED_FILES "test.bin"
 )
 

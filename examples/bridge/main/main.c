@@ -4,7 +4,7 @@
 #include "freertos/task.h"
 #include "esp_bridge_task.h"
 
-static const char *TAG = "app_main";
+// static const char *TAG = "app_main";
 
 
 void app_main(void)

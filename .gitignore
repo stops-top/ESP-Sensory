@@ -70,6 +70,7 @@ dkms.conf
 build/
 sdkconfig
 # 忽略文件
+managed_components/
 
 *.[OoDd]
 *.[Oo][Bb][Jj]
