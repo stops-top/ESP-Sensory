@@ -56,17 +56,11 @@ void app_rmaker_start(void)
 ********************************************************************************/
 void gui_main_start(void)
 {
-    /**
-     * @brief Demos provided by LVGL.
-     * 
-     * @note Only enable one demo every time.
-     * 
-     */
-    lv_example_fingerTouch();
-    //lv_demo_widgets();      /* A widgets example. This is what you get out of the box */
-    //lv_demo_music();        /* A modern, smartphone-like music player demo. */
-    //lv_demo_stress();       /* A stress test for LVGL. */
-    //lv_demo_benchmark();    /* A demo to measure the performance of LVGL or to compare different settings. */
+    // lv_example_fingerTouch();
+    lv_demo_widgets();      /* A widgets example. This is what you get out of the box  80/96 crash*/ 
+    // lv_demo_music();        /* A modern, smartphone-like music player demo. */
+    // lv_demo_stress();       /* A stress test for LVGL. */
+    // lv_demo_benchmark();    /* A demo to measure the performance of LVGL or to compare different settings. */
 
     BaseType_t ret_val = xTaskCreatePinnedToCore(lvgl_task, "lvgl_Task", 6 * 1024, NULL, configMAX_PRIORITIES - 3, &g_lvgl_task_handle, 0);
     ESP_ERROR_CHECK((pdPASS == ret_val) ? ESP_OK : ESP_FAIL);
@@ -83,14 +77,16 @@ void app_main(void)
     LV_LOG_USER("start up");
     // sys_event_group = xEventGroupCreate();
     ESP_ERROR_CHECK(bsp_board_init());
+    esp_bridge_init();
     ESP_ERROR_CHECK(lv_port_init());
     bsp_lcd_set_backlight(true);
     touch_event_init();
     gui_main_start();
+    bsp_sdcard_init_default();
     // app_rmaker_start();
-    esp_bridge_init();
+    
     while(1){
-        vTaskDelay(pdMS_TO_TICKS(10));
+        vTaskDelay(pdMS_TO_TICKS(100));
         // EventBits_t uxBits = xEventGroupWaitBits(
         //     fp_task_events,
         //     FP_CHECKED | FP_TOUCHON | FP_AGAIN,

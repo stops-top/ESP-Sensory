@@ -5,7 +5,7 @@ menu "Box Configuration"
 
             config BOARD_WIFI_SSID
                 string "WiFi STA SSID"
-                default "qitas"
+                default "tq"
                 help
                 WiFi SSID (network name) to connect to or empty for Off.
 

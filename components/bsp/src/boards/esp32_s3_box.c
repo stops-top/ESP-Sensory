@@ -23,6 +23,12 @@ static const board_button_t g_btns[] = {
     {BOARD_BTN_ID_BOOT, 0,      GPIO_NUM_0,    0},
 };
 
+/* 
+| MOD1 | 38 BOOT1 | 39 RST1 | 40 RXD1 | 41 TXD1 | 
+| MOD1 | 42 TCK | 21 TMS | 19 | 20 |
+| MOD2 | 9 TDI  | 43 | 44 | 14 D0 | 
+| MOD2 | 10 TDO | 11 CMD | 13 CLK | 12 | 
+*/
 static const pmod_pins_t g_pmod[2] = {
     {
         {9, 43, 44, 14},
@@ -96,7 +102,7 @@ static const board_res_desc_t g_board_s3_box_res = {
     .GPIO_I2C_SDA =    (GPIO_NUM_8),
 
     .FUNC_SDMMC_EN =   (1),
-    .SDMMC_BUS_WIDTH = (4),
+    .SDMMC_BUS_WIDTH = (1),
     .GPIO_SDMMC_CLK =  (GPIO_NUM_13),
     .GPIO_SDMMC_CMD =  (GPIO_NUM_11),
     .GPIO_SDMMC_D0 =   (GPIO_NUM_14),
@@ -177,7 +183,7 @@ esp_err_t bsp_board_s3_box_init(void)
     /* Install GPIO ISR service to enable GPIO ISR callback */
     gpio_install_isr_service(0);
     ESP_ERROR_CHECK(gpio_isr_handler_add(g_board_s3_box_res.GPIO_MUTE_NUM, mute_btn_handler, NULL));
-
+    // bsp_sdcard_init_default();
     bsp_btn_init_default();
     ESP_ERROR_CHECK(bsp_lcd_init());
     bsp_led_init();
@@ -191,7 +197,6 @@ esp_err_t bsp_board_s3_box_init(void)
     bsp_led_set_rgb(0, 0, 0, 255);
     vTaskDelay(pdMS_TO_TICKS(100));
     bsp_led_set_rgb(0, 0, 0, 0);
-
     return ESP_OK;
 }
 

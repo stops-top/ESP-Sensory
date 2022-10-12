@@ -225,8 +225,8 @@ void tud_cdc_line_state_cb(const uint8_t itf, const bool dtr, const bool rts)
     } else {
         ESP_LOGW(TAG, "DTR = %d, RTS = %d -> BOOT = %d, RST = %d", dtr, rts, boot, rst);
 
-        gpio_set_level(MOD_BOOT1, boot);
-        gpio_set_level(MOD_RST1, rst);
+        gpio_set_level(PMOD_BOT1, boot);
+        gpio_set_level(PMOD_RST1, rst);
 
         serial_set_baudrate(SLAVE_UART_DEFAULT_BAUD);
 
@@ -252,8 +252,8 @@ void tud_cdc_line_state_cb(const uint8_t itf, const bool dtr, const bool rts)
 static void state_change_timer_cb(void *arg)
 {
     ESP_LOGI(TAG, "BOOT = 1, RST = 1");
-    gpio_set_level(MOD_BOOT1, true);
-    gpio_set_level(MOD_RST1, true);
+    gpio_set_level(PMOD_BOT1, true);
+    gpio_set_level(PMOD_RST1, true);
 }
 
 static void init_state_change_timer(void)
@@ -270,20 +270,20 @@ void serial1_init(void)
     const loader_esp32_config_t serial1_conf = {
         .baud_rate = SLAVE_UART_DEFAULT_BAUD,
         .uart_port = UART_NUM_1,
-        .uart_rx_pin = MOD_RX1,
-        .uart_tx_pin = MOD_TX1,
+        .uart_rx_pin = PMOD_RXD1,
+        .uart_tx_pin = PMOD_TXD1,
         .rx_buffer_size = SLAVE_UART_BUF_SIZE * 2,
         .tx_buffer_size = 0,
         .uart_queue = &uart_queue,
         .queue_size = 20,
-        .reset_trigger_pin = MOD_RST1,
-        .gpio0_trigger_pin = MOD_BOOT1,
+        .reset_trigger_pin = PMOD_RST1,
+        .gpio0_trigger_pin = PMOD_BOT1,
     };
     if (loader_port_esp32_init(&serial1_conf) == ESP_LOADER_SUCCESS) {
         ESP_LOGI(TAG, "UART1 have been initialized");
 
-        gpio_set_level(MOD_RST1, 1);
-        gpio_set_level(MOD_BOOT1, 1);
+        gpio_set_level(PMOD_RST1, 1);
+        gpio_set_level(PMOD_BOT1, 1);
         
         // usb_sendbuf = xRingbufferCreate(USB_SEND_RINGBUFFER_SIZE, RINGBUF_TYPE_BYTEBUF);
         // if (usb_sendbuf) {
@@ -303,34 +303,6 @@ void serial1_init(void)
     }
 }
 
-void serial2_init(void)
-{
-    const loader_esp32_config_t serial2_conf = {
-        .baud_rate = SLAVE_UART_DEFAULT_BAUD,
-        .uart_port = UART_NUM_2,
-        .uart_rx_pin = MOD_RX2,
-        .uart_tx_pin = MOD_TX2,
-        .rx_buffer_size = SLAVE_UART_BUF_SIZE * 2,
-        .tx_buffer_size = 0,
-        .uart_queue = &uart_queue,
-        .queue_size = 20,
-        .reset_trigger_pin = MOD_RST2,
-        .gpio0_trigger_pin = MOD_BOOT2,
-    };
-
-    if (loader_port_esp32_init(&serial2_conf) == ESP_LOADER_SUCCESS) {
-        ESP_LOGI(TAG, "UART2 have been initialized");
-
-        gpio_set_level(MOD_RST2, 1);
-        gpio_set_level(MOD_BOOT2, 1);
-        // init_state_change_timer();
-
-        serial2_read_enabled = true;
-    }else{
-        ESP_LOGE(TAG, "loader_port_serial2_init failed");
-        eub_abort();
-    }
-}
 
 
 void serial_set(const bool enable)

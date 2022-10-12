@@ -232,32 +232,6 @@ static void periodic_timer_callback(void* arg)
     ESP_LOGI("timer", "since %ds", time_since_boot);
 }
 
-void esp_bridge_init(void)
-{
-    init_serial_no();
-    periph_module_reset(PERIPH_USB_MODULE);
-    periph_module_enable(PERIPH_USB_MODULE);
-
-    usb_hal_context_t hal = {
-        .use_external_phy = false
-    };
-    usb_hal_init(&hal);
-    configure_pins(&hal);
-
-    tusb_init();
-    msc_init();
-    serial_init();
-    jtag_init();
-
-    const esp_timer_create_args_t periodic_timer_args = {
-            .callback = &periodic_timer_callback,
-            .name = "periodic"
-    };
-    esp_timer_handle_t periodic_timer;
-    ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
-    ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, 10*1000*1000));
-    xTaskCreate(tusb_device_task, "tusb_device_task", 4 * 1024, NULL, 5, NULL);
-}
 
 /*******************************************************************************
 **函数信息 ：
@@ -276,7 +250,7 @@ static void bridge_task(void *pvParameter)
             portMAX_DELAY
         );
     }
-	bridge_task_deinit();
+	esp_bridge_deinit();
 }
 
 /*******************************************************************************
@@ -285,20 +259,46 @@ static void bridge_task(void *pvParameter)
 **输入参数 ：
 **输出参数 ：
 ********************************************************************************/
-void bridge_task_init(void)
+void esp_bridge_init(void)
 {
-    if(esp_bridge_port_init()==ESP_OK){
-		bridge_event_group = xEventGroupCreate();
-		xTaskCreate(bridge_task, "bridge_task", TASK_BRIDGE_SIZE, NULL, TASK_BRIDGE_PRIO, &bridge_task_hdl);
-	}
+    // if(esp_bridge_port_init()==ESP_OK){
+	// 	bridge_event_group = xEventGroupCreate();
+	// 	xTaskCreate(bridge_task, "bridge_task", TASK_BRIDGE_SIZE, NULL, TASK_BRIDGE_PRIO, &bridge_task_hdl);
+	// }
+    init_serial_no();
+    periph_module_reset(PERIPH_USB_MODULE);
+    periph_module_enable(PERIPH_USB_MODULE);
+
+    usb_hal_context_t hal = {
+        .use_external_phy = false
+    };
+    usb_hal_init(&hal);
+    configure_pins(&hal);
+
+    tusb_init();
+    msc_init();
+    serial_init();
+    jtag_init();
+
+    // const esp_timer_create_args_t periodic_timer_args = {
+    //         .callback = &periodic_timer_callback,
+    //         .name = "periodic"
+    // };
+    // esp_timer_handle_t periodic_timer;
+    // ESP_ERROR_CHECK(esp_timer_create(&periodic_timer_args, &periodic_timer));
+    // ESP_ERROR_CHECK(esp_timer_start_periodic(periodic_timer, 10*1000*1000));
+    xTaskCreatePinnedToCore(tusb_device_task, "tusb_device_task", 4 * 1024, NULL, TASK_BRIDGE_PRIO, &bridge_task_hdl, 1);
+    // xTaskCreatePinnedToCore(lvgl_task, "lvgl_Task", 6 * 1024, NULL, configMAX_PRIORITIES - 3, &g_lvgl_task_handle, 1);
+    bridge_event_group = xEventGroupCreate();
 }
+
 /*******************************************************************************
 **函数信息 ：
 **功能描述 ：
 **输入参数 ：
 **输出参数 ：
 ********************************************************************************/
-void bridge_task_deinit(void)
+void esp_bridge_deinit(void)
 {
 	esp_bridge_port_deinit();
 	vTaskDelete(bridge_task_hdl);

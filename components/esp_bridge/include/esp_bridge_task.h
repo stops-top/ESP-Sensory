@@ -6,7 +6,7 @@
 #include "freertos/event_groups.h"
 
 
-#define TASK_BRIDGE_PRIO              (configMAX_PRIORITIES-9)
+#define TASK_BRIDGE_PRIO              (configMAX_PRIORITIES-1)
 #define TASK_BRIDGE_SIZE              (1024*4)
 
 typedef enum bridge_event_group_bits {
@@ -23,5 +23,4 @@ extern EventGroupHandle_t bridge_event_group;
 
 
 void esp_bridge_init(void);
-void bridge_task_init(void);
-void bridge_task_deinit(void);
+void esp_bridge_deinit(void);
